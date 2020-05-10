@@ -8,12 +8,11 @@ def given_name(name):
   
 def given_ticker(ticker):
     stock=yf.download(ticker,period='1m',interval='1m')
-    #return stock.squeeze().tail(1)['High']
-    return round(float(stock.tail(1)['High']),2)
-    #return stock.squeeze()
+
+    return round(float(stock.tail(1)['Open']),2)
+   
 
 if __name__ == "__main__":
     pass
 
 
-#print(given_ticker('AMD'))
