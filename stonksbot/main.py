@@ -14,6 +14,7 @@ bot = commands.Bot(command_prefix='!')
 async def stonk(ctx,arg):
 	stock_price=tickerprice.given_ticker(arg)
 	await ctx.send(stock_price)
+
 @bot.event
 async def on_ready():
 	guild = discord.utils.get(bot.guilds, name=GUILD)
