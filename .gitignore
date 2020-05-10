@@ -123,3 +123,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Ticker
+generic.csv
+generic.json
+generic.pickle
+generic.xlsx
+generic.yaml
+
