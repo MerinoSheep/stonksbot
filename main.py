@@ -12,8 +12,16 @@ bot = commands.Bot(command_prefix='!')
 
 @bot.command()
 async def stonk(ctx,arg):
-	stock_price=tickerprice.given_ticker(arg)
-	await ctx.send(stock_price)
+	is_found, stock_info = tickerprice.given_ticker(arg)#stock info will return price and url in a tuple
+	if(not is_found):
+		await ctx.send(stock_info[0])
+	else:
+		embed = discord.Embed(title="Stock", color=0x08b2e3)
+		embed.set_thumbnail(url=stock_info[1])
+		embed.add_field(name="Price:", value=stock_info[0], inline=False)
+		embed.set_footer(text="Logos provided by Clearbit(https://clearbit.com)")
+		
+		await ctx.send(embed=embed)
 
 @bot.event
 async def on_ready():
