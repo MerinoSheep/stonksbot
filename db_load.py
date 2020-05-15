@@ -1,4 +1,4 @@
-import tickerprice
+import tick
 import sql_stock
 import csv
 import time
@@ -12,7 +12,7 @@ def write():
 
             else:
                 try:
-                    found,stock_info = tickerprice.given_ticker(row[0])#[form_stock_price,logo_url,name]
+                    found,stock_info = tick.given_ticker(row[0])#[form_stock_price,logo_url,name]
                 except IndexError:
                     print("cant process row") 
                 if(found):

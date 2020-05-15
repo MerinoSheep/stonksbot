@@ -3,8 +3,10 @@ import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
-import tickerprice
+import tick
 import sql_stock
+from discord.ext.commands import CommandNotFound
+
 load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -22,7 +24,7 @@ async def stonk(ctx, *arg):
 	arg = arg[0].upper()
 	stock_info = sql_stock.find_entry(arg)
 	if stock_info != None:
-		price,pick_emoji = tickerprice.get_price(arg)
+		price,pick_emoji = tick.get_price(arg)
 		embed = discord.Embed(title=stock_info[1], color=0x08b2e3)  # Name of stock
 		embed.set_thumbnail(url=stock_info[2])
 		embed.add_field(name="Price:", value=price,inline=False)
@@ -36,13 +38,13 @@ async def stonk(ctx, *arg):
 		await msg.add_reaction(emoji)
 
 	else:
-		is_found, stock_info = tickerprice.given_ticker(arg)
+		is_found, stock_info = tick.given_ticker(arg)
 		if(not is_found):
 			await ctx.send(stock_info[0])#Returns error message
 		else:
 			embed = discord.Embed(title=stock_info[2], color=0x08b2e3)  # Name of stock
 			if stock_info[1] != 'None':
-				price,pick_emoji = tickerprice.get_price(arg)
+				price,pick_emoji = tick.get_price(arg)
 				embed.set_thumbnail(url=stock_info[1]) #Icon
 				embed.add_field(name="Price:", value=price, inline=False) #Price
 				embed.set_footer(
@@ -56,7 +58,11 @@ async def stonk(ctx, *arg):
 				msg = await ctx.send(embed=embed)
 				await msg.add_reaction(emoji)
 
-
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        return
+    raise error
 
 @bot.event
 async def on_ready():
