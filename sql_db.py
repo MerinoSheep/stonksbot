@@ -17,6 +17,7 @@ def find_entry(ticker):
 	info = c.fetchone()
 	return info
 
+
 #Example
 #add_entry("AMD","Advanced Micro Devices, Inc.","https://logo.clearbit.com/amd.com")
 

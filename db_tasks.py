@@ -1,13 +1,15 @@
 import tick
-import sql_stock
+import sql_db
 import csv
 import time
+import sqlite3
+import os.path
 def write():
     with open('NYSE.txt') as csv_f:
         csv_reader = csv.reader(csv_f,delimiter='\t')
         for row in csv_reader:
             ticker = row[0]
-            if(sql_stock.find_entry(ticker) != None):
+            if(sql_db.find_entry(ticker) != None):
                 print("{} already has a database entry".format(ticker))
 
             else:
@@ -17,9 +19,20 @@ def write():
                     print("cant process row") 
                 if(found):
                         print("{} added".format(ticker))
-                        sql_stock.add_entry(ticker,stock_info[2],stock_info[1])
+                        sql_db.add_entry(ticker,stock_info[2],stock_info[1])
                         #time.sleep(2)
                 else:
                     print(stock_info) # A not found stock will return an error string while a found stock returns a tuple
+def update_db():
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(BASE_DIR, "stocks.db")
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+    
+    c.close()
+    conn.close()
 
-write()
+#def update():
+
+
+# write()

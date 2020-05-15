@@ -35,7 +35,7 @@ def given_ticker(ticker):
         form_stock_price = currency_symbol + str(curr_stock_price)
         # False emoji means decrease in price an True means increase on the period
         change = True if curr_stock_price > prev_stok_price else False
-        return True, [form_stock_price, logo_url, name, change]
+        return True, [form_stock_price,name, logo_url, change]
 
 
 def get_price(ticker):
@@ -52,4 +52,4 @@ if __name__ == "__main__":
     pass
 
 
-# print(given_ticker('RPT-D'))
+#print(get_price('AMD'))
