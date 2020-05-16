@@ -27,12 +27,12 @@ def given_ticker(ticker):
         currency_symbol = '$'
         # return info
         try:
-            curr_stock_price = round(float(stock.tail(1)['Open']), 2)
+            curr_stock_price = float(stock.tail(1)['Open'])
         except TypeError:
                 return False, ["{} is not traded enough!".format(ticker)]
 
-        prev_stok_price = round(float(stock.head(1)['Open']), 2)
-        form_stock_price = currency_symbol + str(curr_stock_price)
+        prev_stok_price = float(stock.head(1)['Open'])
+        form_stock_price = currency_symbol + "{:0.2f}".format(curr_stock_price)
         # False emoji means decrease in price an True means increase on the period
         change = True if curr_stock_price > prev_stok_price else False
         return True, [form_stock_price,name, logo_url, change]
@@ -40,10 +40,10 @@ def given_ticker(ticker):
 
 def get_price(ticker):
     stock = yf.download(ticker, period='30m', interval='1m')
-    curr_stock_price = round(float(stock.tail(1)['Open']), 2)
-    prev_stok_price = round(float(stock.head(1)['Open']), 2)
+    curr_stock_price =float(stock.tail(1)['Open'])
+    prev_stok_price = float(stock.head(1)['Open'])
     currency_symbol = '$'
-    form_stock_price = currency_symbol + str(curr_stock_price)
+    form_stock_price = currency_symbol + "{:0.2f}".format(curr_stock_price)
     change = True if curr_stock_price > prev_stok_price else False
     return form_stock_price, change
 
