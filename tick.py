@@ -9,23 +9,15 @@ currency = {
 def given_ticker(ticker):
 
     try:
-        info = yf.Ticker(ticker).info
+        info = get_info(ticker)
     except KeyError:
         return False, ["Something went wrong when getting {}!".format(ticker)]
     else:
-        try:
-            market_info = info['market']
-        except KeyError:
-            return False, ["No market information on {}!".format(ticker)]
         logo_url = info['logo_url']
-        try:
-            name = info['shortName']
-        except KeyError:
-            return False, ["{} does not have enough info!".format(ticker)]
+        name = get_short_name(ticker)
         # If 'No data found for this date range, symbol may be delisted' increase period
         stock = yf.download(ticker, period='30m', interval='1m')
         currency_symbol = '$'
-        # return info
         try:
             curr_stock_price = float(stock.tail(1)['Open'])
         except TypeError:
@@ -48,8 +40,17 @@ def get_price(ticker):
     return form_stock_price, change
 
 
+def get_info(ticker):
+    return yf.Ticker(ticker).info
+
+def get_short_name(ticker):
+    try:
+        return get_info(ticker)['shortName']
+    except KeyError:
+        return False, ["{} does not have enough info!".format(ticker)]
+
 if __name__ == "__main__":
     pass
 
-
+#print( get_info('AMD'))
 #print(get_price('AMD'))

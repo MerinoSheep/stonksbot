@@ -10,7 +10,6 @@ from discord.ext.commands import CommandNotFound
 load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
 bot = commands.Bot(command_prefix='!')
 
 up_emoji = '\U00002668'
@@ -56,7 +55,7 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_ready():
-	guild = discord.utils.get(bot.guilds, name=GUILD)
+	
 	# Emoji is chart decreasing
 	await bot.change_presence(activity=discord.Game(name="the stock market📉"))
 	print("Bot is ready")
