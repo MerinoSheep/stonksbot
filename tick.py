@@ -49,6 +49,11 @@ def get_short_name(ticker):
     except KeyError:
         return False, ["{} does not have enough info!".format(ticker)]
 
+def get_icon(ticker):
+    return get_info(ticker)['logo_url']
+
+
+
 if __name__ == "__main__":
     pass
 

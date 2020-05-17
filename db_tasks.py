@@ -38,6 +38,7 @@ def update_db():
     for row in c:
         ticker = row[0]
         if(row[1]==None or row[1] == 'Null' ): #shortname update
+
             try:
                 name = tick.get_short_name(ticker)             
             except KeyError:
@@ -45,12 +46,15 @@ def update_db():
             else:
                 c.execute("UPDATE stocks set name = ? where ticker = ?", (name,ticker))
                 print("update name")
+
+
+
         if(row[3]==None or row[3] == 'Null' ): #exchange update       
             stock_IEX = Stock(ticker, tocken = IEX_TOKEN)           
             try:
                 exchange = stock_IEX.get_company()['exchange']
             except utils.exceptions.IEXQueryError:
-                print("Could not complete action")
+                print("Could not complete exchange query")
             else:
                 c2.execute("UPDATE stocks set exchange = ? where ticker = ?", (exchange,ticker))
                 print("Added {} for {}".format(exchange,ticker))
